@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SignIn Page</title>
+    <link rel="stylesheet" href="styles/log.css"> 
+</head>
+<body>
+
+    <form class="signin-form">
+        <div class="log">
+          <div class="title">
+            <h1>Welcome</h1>
+            <button class="next" id="admin-login" autofocus>admin-login</button>
+          </div>
+          <div class="signin-section" id="password-section">
+            <input class="signin" id="signin-password" type="email" placeholder="Enter Your Email" />
+            <input class="signin" id="signin-password" type="password" placeholder="Enter Your Password" />
+            <div class="showPassBox">
+              <input type="checkbox" id="showPassword" />
+              <label for="showPassword">Show password</label>
+            </div>
+            <span style="display: none;" id="email-sent-text">An email with instructions has been sent to your email.</span>
+          </div>
+          <div class="login">
+            <button class="next" id="password-next" autofocus>Next</button>
+          </div>
+        </div>
+    </form>
+
+    <form class="signup-form">
+        <div class="log">
+          <h1>Create an Account</h1>
+          <input class="signup" type="text" placeholder="First Name" id="first-name-input" />
+          <input class="signup" type="text" placeholder="Last Name" id="last-name-input" />
+          <input class="signup" type="text" placeholder="Email" id="email-input" />
+          <input class="signup" type="text" placeholder="Password" id="password-input" />
+          <input class="signup" type="text" placeholder="Verify Password" id="ver-pass-input" />
+          <button class="next" id="signup-btn">Finish</button>
+        </div>
+    </form>
+
+</body>
+</html>
