@@ -84,3 +84,10 @@ button {
   margin-right: 10px;
 }
 
+
+.e-commerce-logo {
+  width: 100px;
+  object-fit: fill;
+  background-color: none;
+  margin-left: 20px;
+}
