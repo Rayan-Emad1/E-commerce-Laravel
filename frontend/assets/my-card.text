@@ -1,0 +1,105 @@
+    <!-- <div class="product-card">
+        <img class="like-icon" src="assets/unliked.jpg" alt="Like Button">
+        <div class="product-image-container">
+          <img class="product-image" src="assets/product-test.jpg">
+        </div>
+        <div class="product-details">
+            <h2 class="product-name">Computer</h2>
+            <p class="product-description">3G ram, 4K, touch </p>
+            <div class="category-container">
+              <img src="assets/category-icon.png" alt="category icon" class="like-icon">
+              <div class="product-category">Technology</div>
+            </div>
+
+            <button class="add-cart-button">Add to Cart</button>
+        </div>
+    </div> -->
+
+
+    css:
+
+    .product-cards-container{
+        margin: 0;
+        margin-top: 7%;
+        padding: 20px 20px;
+        width: 100vw;
+        display: flex;
+        flex-wrap: wrap;
+        grid-row-gap: 30px;
+        grid-column-gap: 15px;
+        background-color: lightgray;
+    }
+    
+    .product-card{
+      background-color: #5d6168;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 10px;
+      height: fit-content;
+      width: 200px ;
+    }
+    
+    .product-card:hover{
+     .product-details {display:flex;}; 
+    }
+    
+    .product-image-container{
+      width:100%;
+      display: flex;
+      justify-content: center;
+      align-content: center;
+    }
+    
+    .product-image{
+      background-color: aquamarine; 
+      width: 150px;
+      height: 100px;
+      object-fit: cover;
+      border-radius: 20px;
+    }
+    
+    
+    .product-details{
+      padding: 10px 5px;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      grid-row-gap: 12px;
+    }
+    
+    
+    
+    .add-cart-button{
+        color: rgb(255, 255, 255);
+        font-family: "Google Sans", Roboto, Arial, sans-serif;
+        font-size: 0.5rem;
+        background-color: #1a73e8;
+        border-radius: 5px;
+        width: fit-content;
+        height: fit-content;
+        border: none;
+        padding: 5px;
+    }
+    
+    
+    .add-cart-button:hover{
+      color:#1a73e8 ;
+      background-color: rgb(255, 255, 255);
+      font-size: 10px;
+      font-size: 10px;
+    }
+    
+    
+    .product-category{
+      font-weight: 900;
+      font-size:medium;
+    }
+    
+    .category-container{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    
