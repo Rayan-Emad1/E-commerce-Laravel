@@ -20,7 +20,7 @@
       <button class="search-button">
         <img class="search-icon" src="assets/search.svg" />
       </button>
-      <button class="filter-button">
+      <button class="filter-button" id="filter-button">
         <img class="filter-search-icon" src="assets/filter-icon.png" />
       </button>
     </div>
@@ -29,26 +29,33 @@
         <img class="cart-icon" src="assets/cart.png"/>
         <div class="notif"></div>
       </div>
-      <img class="current-user-picture" src="assets/default-profile-icon.jpg" />
+      <img class="current-user-picture" onclick="pages.userInfo()" src="assets/default-profile-icon.jpg" />
     </div>
   </div>
       
-        <!-- <div class="user-info-tab" id="user-info-tab">
-          <div class="user-info">
-            <img class="userIcon" id="icon-disp" src="../assets/default-profile-icon.jpg" alt="Default Icon">
-            <div>
-              <h1 id="full-name-disp"></h1>
-              <div id="email-disp"></div>
-            </div>
-          </div>
-          <button class="edit-information" id="edit-information" onclick="pages.showOverlay3()">Edit information</button>
-          <button class="edit-information" id="logout" onclick="pages.logOut()">Logout</button>
-        </div> -->
+  <div class="user-info-tab" id="user-info-tab">
+    <div class="user-info">
+      <img class="userIcon" id="icon-disp" src="assets/default-profile-icon.jpg" alt="Default Icon">
+      <div>
+        <h1 id="full-name-disp"></h1>
+        <div id="email-disp"></div>
+      </div>
+    </div>
+    <button class="logout" id="logout" onclick="pages.logOut()">Logout</button>
+  </div>
+
+  <div id="filter-window" class="filter-window">
+    <label for="category-select">Select a category:</label>
+    <select id="category-select">
+      <option value="category1">Category 1</option>
+      <option value="category2">Category 2</option>
+      <option value="category3">Category 3</option>
+      <!-- Add more options as needed -->
+    </select>
+    <button id="apply-filter-button">Apply Filter</button>
+  </div>
 
 
-    
-    
-  
   <div class="product-cards-container">
 
     <div class="card">
@@ -146,6 +153,9 @@
 
   </div>
 
-    
+  <script src="script/script.js"></script>
+  <script>
+    pages.headerFuctions()
+  </script> 
 </body>
 </html>
