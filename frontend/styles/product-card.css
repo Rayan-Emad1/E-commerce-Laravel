@@ -12,8 +12,6 @@
   overflow: hidden;
 }
 
-.like-icon,
-.unlike-icon,
 .category-icon {
   width: 20px;
   height: 20px;
@@ -29,14 +27,17 @@
   margin-top: 25px;
   width: 30px;
   height: 30px;
-  background-color: #507fff;
+  object-fit: cover;
   cursor: pointer;
   z-index: 999;
   display: block;
+  align-self: flex-end;
 }
 
 .like-icon{
   display: none;
+  width: 37px;
+  height: 45px;
 }
 
  .card .imgBx {
