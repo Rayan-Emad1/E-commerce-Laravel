@@ -11,28 +11,23 @@ class CustomerController extends Controller
     public function getProducts(){
 
         $products = Product::all();
-
         $response = [];
 
-        // Loop through each product and build the desired structure
         foreach ($products as $product) {
-            // Retrieve the corresponding category for each product
-            $category = Category::find($product->id_category);
-
-            // Build the product info array
+            $id = $product->id_category;
+            $category = Category::where("id_category", $id)->get()[0];
+            
             $productInfo = [
+                'id' => $product->id_product,
                 'title' => $product->title,
                 'description' => $product->description,
-                'product_image' => $product->product_image,
-                'id' => $product->id,
-                'id_category' => $product->id_category,
-                'category_name' => $category ? $category->name : null,
+                // 'product_image' => $product->product_image,
+                'category_name' => $category ? $category->category : null,
             ];
 
             $response[] = $productInfo;
         }
 
-        // Return the response containing all the products' information
         return response()->json(['products' => $response]);
     }
 
