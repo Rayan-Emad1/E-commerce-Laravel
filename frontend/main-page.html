@@ -26,7 +26,7 @@
     </div>
     <div class="right-section">
       <div style="position: relative">
-        <img class="cart-icon" src="assets/cart.png"/>
+        <img class="cart-icon" id="cart-icon" src="assets/cart.png"/>
         <div class="notif"></div>
       </div>
       <img class="current-user-picture" onclick="pages.userInfo()" src="assets/default-profile-icon.jpg" />
@@ -56,7 +56,7 @@
   </div>
 
 
-  <div class="product-cards-container">
+  <div class="product-cards-container" id="product-cards-container">
 
     <div class="card">
       <img class="like-icon" src="assets/unliked.jpg" alt="Like Button">
@@ -66,7 +66,7 @@
         <div class="contentBx">
             <h2>Nike Shoes</h2>
             <div class="product-description">
-                <p>ajsiaodhaouodvasiyviyavscasihf</p>
+                <p>ajsiaodhaousdsdsdsdsddsodvasiyvzxznnzjxnlznlnzxlknzxiyavscasihf</p>
             </div>
             <div class="category-container">
               <img src="assets/category-icon.png" alt="category icon" class="category-icon">
@@ -153,9 +153,13 @@
 
   </div>
 
+  <div class="cart-cards-container" id="cart-cards-container">
+  </div>
+
   <script src="script/script.js"></script>
   <script>
     pages.headerFuctions()
+    pages.cardFuctions()
   </script> 
 </body>
 </html>
