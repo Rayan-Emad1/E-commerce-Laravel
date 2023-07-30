@@ -8,7 +8,7 @@ pages.headerFuctions = () => {
 }
 
 pages.cardFuctions = () => {
-
+  pages.likeProduct();
 }
 
 pages.showFilter = () => {
@@ -66,3 +66,19 @@ pages.showCart = () => {
     document.getElementById("cart-cards-container").style.display = "flex";
   })
 }
+
+pages.likeProduct = () => {
+  let liked = document.getElementById("like-icon");
+  let unliked = document.getElementById("unlike-icon");
+  
+  let likedDisplay = window.getComputedStyle(liked).display;
+  let unlikedDisplay = window.getComputedStyle(unliked).display;
+
+  if (likedDisplay === "block" && unlikedDisplay === "none") {
+    liked.style.display = "none";
+    unliked.style.display = "block";
+  } else {
+    liked.style.display = "block";
+    unliked.style.display = "none";
+  }
+};
