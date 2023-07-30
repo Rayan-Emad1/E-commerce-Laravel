@@ -4,9 +4,12 @@ pages.headerFuctions = () => {
     pages.showFilter();
     pages.applyFilter();
     pages.userInfo();
+    pages.showCart();
 }
 
+pages.cardFuctions = () => {
 
+}
 
 pages.showFilter = () => {
     document.getElementById("filter-button").addEventListener("click", function() {
@@ -16,7 +19,8 @@ pages.showFilter = () => {
     } else {
       filterWindow.style.display = "none";
     }
-})}
+  })
+};
 
 pages.applyFilter = () => {
   document.getElementById("apply-filter-button").addEventListener("click", function() {
@@ -26,7 +30,7 @@ pages.applyFilter = () => {
     let filterWindow = document.getElementById("filter-window");
     filterWindow.style.display = "none";
   })
-}
+};
 
 pages.userInfo = () => {
     const userInfoTab = document.querySelector('.user-info-tab');
@@ -36,7 +40,7 @@ pages.userInfo = () => {
     } else {
       userInfoTab.style.display = 'none';
     }
-}
+};
 
 pages.displayUserInfo = () => {
     const firstName = localStorage.getItem("first_name");
@@ -54,4 +58,11 @@ pages.displayUserInfo = () => {
 pages.logOut = () => {
     localStorage.clear();
     window.location.href = "index.html";
-  }
+};
+
+pages.showCart = () => {
+  document.getElementById("cart-icon").addEventListener("click" , function(){
+    document.getElementById("product-cards-container").style.display = "none";
+    document.getElementById("cart-cards-container").style.display = "flex";
+  })
+}
