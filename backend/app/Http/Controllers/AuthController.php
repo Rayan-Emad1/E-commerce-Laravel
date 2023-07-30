@@ -10,35 +10,63 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-    public function signin(Request $request)
-    {
+    public function signin(Request $request){
+        
         $email = $request->input('email');
         $password = $request->input('password');
-
+    
         // Check if the user exists in the admins table
         $admin = Admin::where('email', $email)->first();
 
-        if ($admin && Hash::check($password, $admin->password)) {
-            // User is an admin and password is correct
-            $token = Auth::guard('admin')->login($admin);
-            return response()->json(['role' => 'admin', 'user' => $admin, 'token' => $token], 200);
+        // User is an admin and password is correct
+        if ($admin && Hash::check($password, $admin->password)) {    
+            // $token = Auth::guard('admin')->login($admin);
+            return response()->json([
+                'role' => 'admin', 
+                'user' => $admin]);
         }
-
+    
         // If email is not found in admins table, check customers table
         $customer = Customer::where('email', $email)->first();
-
+    
         if ($customer && Hash::check($password, $customer->password)) {
             // User is a customer and password is correct
-            $token = Auth::guard('customer')->login($customer);
-            return response()->json(['role' => 'customer', 'user' => $customer, 'token' => $token], 200);
-        }else{
-            return response()->json(['Error'=> 'Email not found' ]);
+            // $token = Auth::guard('customer')->login($customer);
+            return response()->json([
+                'role' => 'customer',
+                'user' => $customer]);
         }
+        return response()->json(['message' => 'Email not found']);
     }
 
+    public function signup(Request $request){
 
-
-
-
+        $firstName = $request->input('first_name');
+        $lastName = $request->input('last_name');
+        $email = $request->input('email');
+        $password = $request->input('password');
     
+        if (!$firstName || !$lastName || !$email || !$password) {
+            return response()->json([
+                'message' => 'Missing required fields']);
+        }
+    
+        // Check if the email already exists in the customers table
+        if (Customer::where('email', $email)->exists()) {
+            return response()->json(['message' => 'Email already registered']);
+        }
+    
+        $customer = new Customer;
+        $customer->first_name = $firstName;
+        $customer->last_name = $lastName;
+        $customer->email = $email;
+        $customer->password = Hash::make($password);
+        $customer->save();
+    
+        return response()->json([
+            'message' => 'Customer registered successfully',
+            'customer' => $customer,
+        ]);
+    }
+
 }
