@@ -101,7 +101,25 @@ class CustomerController extends Controller
         return response()->json(['message' => 'Product added to cart successfully']);
     }
 
-    
+    public function addToLiked(Request $request){
+        $productId = $request->input('product_id');
+        $customerId = $request->input('customer_id');
+
+        $product = Product::where('id_product', $productId)->first();
+        $customer = Customer::where('id_customer', $customerId)->first();
+
+        if (!$productId || !$customerId) {
+            return response()->json(['error' => 'Product or Customer not found']);
+        }
+
+        // Add the product to the liked table
+        $like = new Like();
+        $like->id_user = $customerId;
+        $like->id_product = $productId;
+        $like->save();
+
+        return response()->json(['message' => 'Product added to liked table successfully']);
+    }
 
 
 }

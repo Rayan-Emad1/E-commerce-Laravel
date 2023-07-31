@@ -8,8 +8,8 @@ class CreateOrdersTable extends Migration
 {
     public function up()
     {
-        Schema::create('orders', function (Blueprint $table) {
-            $table->id('id_order');
+        Schema::create('carts', function (Blueprint $table) {
+            $table->id('id_cart');
             $table->unsignedBigInteger('id_user');
             $table->unsignedBigInteger('id_product');
             $table->timestamps();

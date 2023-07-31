@@ -17,6 +17,8 @@ Route::post('/signup', [AuthController::class, 'signup']);
 
 
 Route::get('/products', [CustomerController::class, 'getProducts']);
-Route::post('/getProduct', [CustomerController::class, 'getProduct']);
+Route::post('/get-product', [CustomerController::class, 'getProduct']);
+Route::get('/add-to-cart', [CustomerController::class, 'addToCart']);
+Route::post('/add-to-liked', [CustomerController::class, 'addToLiked']);
 
 
