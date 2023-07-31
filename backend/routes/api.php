@@ -17,5 +17,6 @@ Route::post('/signup', [AuthController::class, 'signup']);
 
 
 Route::get('/products', [CustomerController::class, 'getProducts']);
+Route::post('/getProduct', [CustomerController::class, 'getProduct']);
 
 
