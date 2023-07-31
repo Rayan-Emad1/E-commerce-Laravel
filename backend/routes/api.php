@@ -24,3 +24,8 @@ Route::post('/add-to-liked', [CustomerController::class, 'addToLiked']);
 Route::get('get-customer-products', [CustomerController::class, 'getCustomerProducts']);
 
 
+
+Route::get('/products', [AdminController::class, 'getProducts']);
+Route::post('/create', [AdminController::class, 'create']);
+Route::post('/update',[AdminController::class, 'update']);
+Route::delete('/destroy',[AdminController::class, 'destroy']);
