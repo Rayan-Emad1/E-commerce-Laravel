@@ -15,7 +15,7 @@ pages.logPageFunctions = () => {
 pages.mainPageFunctions = () => {
   pages.headerFuctions();
   pages.cardFuctions();
-  pages.showProducts ();
+  pages.fetchProducts();
 }
 
 pages.headerFuctions = () => {
@@ -187,9 +187,9 @@ pages.showFilter = () => {
 
 pages.applyFilter = () => {
   document.getElementById("search-icon").addEventListener("click", function() {
-
-    let selectedCategory = document.getElementById("category-select").value;
-    console.log("Selected category: " + selectedCategory);
+    let selected_category = document.getElementById("category-select").value;
+    let selected_title = document.getElementById("search-bar").value
+    
     let filterWindow = document.getElementById("filter-window");
     filterWindow.style.display = "none";
   })
@@ -246,36 +246,37 @@ pages.likeProduct = () => {
   }
 };
 
-pages.showProducts = (type = "products") => {
-  fetch(pages.base_url + type)
+
+pages.fetchProducts = () => {
+  return fetch(pages.base_url + "products")
     .then((response) => response.json())
     .then((data) => {
       if (data.products && Array.isArray(data.products)) {
-        const products = data.products;
-
-        const productInstances = [];
-
-        products.forEach((productData) => {
-          const productInstance = new Product(
-            productData.id,
-            productData.title,
-            productData.description,
-            productData.category_name,
-            // productData.product_image,
-          );
-
-          productInstances.push(productInstance);
-        });
-
-        const productCardsContainer = document.getElementById('product-cards-container');
-
-        let productCardsHTML = '';
-        productInstances.forEach((productInstance) => {
-          productCardsHTML += productInstance.displayProductCard();
-        });
-
-        productCardsContainer.innerHTML += productCardsHTML;
+        pages.displayProducts(data.products);
       }
+      return [];
     })
-    .catch((error) => console.log(error));
+    .catch((error) => {
+      console.log(error);
+      return [];
+    });
+}
+
+pages.displayProducts = (productArray, container = 'product-cards-container') => {
+  const productCardsContainer = document.getElementById(container);
+
+  let productCardsHTML = '';
+  productArray.forEach((productData) => {
+    const productInstance = new Product(
+      productData.id,
+      productData.title,
+      productData.description,
+      productData.category_name
+      // You can pass the product_image here if needed
+    );
+
+    productCardsHTML += productInstance.displayProductCard();
+  });
+
+  productCardsContainer.innerHTML = productCardsHTML;
 }
