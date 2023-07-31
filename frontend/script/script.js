@@ -15,12 +15,64 @@ pages.logPageFunctions = () => {
 pages.mainPageFunctions = () => {
   pages.headerFuctions();
   pages.cardFuctions();
+  pages.showProducts ();
+}
+
+pages.headerFuctions = () => {
+  pages.showFilter();
+  pages.applyFilter();
+  pages.userInfo();
+  pages.showCart();
+}
+
+pages.cardFuctions = () => {
+// pages.likeProduct();
 }
 
 
 ///////
 /////
 ///
+
+class Product {
+  constructor(id,title,description,category_name,product_image=null){
+    this.product_id = id;
+    this.product_title = title;
+    this.product_description = description;
+    this.product_category_name = category_name;
+    this.product_image = product_image;
+  }
+
+  displayProductCard() {
+    return `
+      <div class="card" data-id = "${this.product_id}" >
+        <img class="unlike-icon" id="unlike-icon" src="assets/unliked.png" onclick= pages.likeProduct() alt="Like Button">
+        <img class="like-icon" id="like-icon" src="assets/liked.png" onclick = pages.likeProduct() alt="Like Button">
+          <div class="imgBx">
+              <img src="http://pngimg.com/uploads/running_shoes/running_shoes_PNG5782.png" alt="nike-air-shoe">
+          </div>
+          <div class="contentBx">
+              <h2>${this.product_title}</h2>
+              <div class="product-description">
+                  <p>${this.product_description}</p>
+              </div>
+              <div class="category-container">
+                <img src="assets/category-icon.png" alt="category icon" class="category-icon">
+                <div class="product-category">${this.product_category_name}</div>
+              </div>
+              <button>Add to Cart</button>
+          </div>
+      </div>
+    `;
+  }
+
+}
+
+
+///
+////
+///////
+
 
 
 
@@ -122,17 +174,6 @@ pages.showPassword = () => {
   });
 }
 
-pages.headerFuctions = () => {
-    pages.showFilter();
-    pages.applyFilter();
-    pages.userInfo();
-    pages.showCart();
-}
-
-pages.cardFuctions = () => {
-  pages.likeProduct();
-}
-
 pages.showFilter = () => {
     document.getElementById("filter-button").addEventListener("click", function() {
     const filterWindow = document.getElementById("filter-window");
@@ -145,7 +186,7 @@ pages.showFilter = () => {
 };
 
 pages.applyFilter = () => {
-  document.getElementById("apply-filter-button").addEventListener("click", function() {
+  document.getElementById("search-icon").addEventListener("click", function() {
 
     let selectedCategory = document.getElementById("category-select").value;
     console.log("Selected category: " + selectedCategory);
@@ -204,3 +245,37 @@ pages.likeProduct = () => {
     unliked.style.display = "none";
   }
 };
+
+pages.showProducts = (type = "products") => {
+  fetch(pages.base_url + type)
+    .then((response) => response.json())
+    .then((data) => {
+      if (data.products && Array.isArray(data.products)) {
+        const products = data.products;
+
+        const productInstances = [];
+
+        products.forEach((productData) => {
+          const productInstance = new Product(
+            productData.id,
+            productData.title,
+            productData.description,
+            productData.category_name,
+            // productData.product_image,
+          );
+
+          productInstances.push(productInstance);
+        });
+
+        const productCardsContainer = document.getElementById('product-cards-container');
+
+        let productCardsHTML = '';
+        productInstances.forEach((productInstance) => {
+          productCardsHTML += productInstance.displayProductCard();
+        });
+
+        productCardsContainer.innerHTML += productCardsHTML;
+      }
+    })
+    .catch((error) => console.log(error));
+}

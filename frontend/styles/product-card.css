@@ -34,6 +34,10 @@
   align-self: flex-end;
 }
 
+.unlike-icon{
+  display: block;
+}
+
 .like-icon{
   display: none;
   width: 37px;
@@ -110,7 +114,11 @@
   height: 3em; 
   overflow: hidden;
 }
-
+.product-category{
+  color: white;
+  font-size: larger;
+  font-weight: 900;
+}
 
 .card p {
   color: #fff;
@@ -118,7 +126,7 @@
   overflow: hidden;
 }
 
- .card .contentBx a {
+ .card .contentBx button {
   display: inline-block;
   padding: 10px 20px;
   background: #507fff;
@@ -132,7 +140,7 @@
   transition: .5s;
 }
 
-.card:hover .contentBx a {
+.card:hover .contentBx button {
   opacity: 1;
   transform: translateY(0px);
   transition-delay: .9s;
