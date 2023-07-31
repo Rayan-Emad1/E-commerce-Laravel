@@ -46,8 +46,8 @@ class Product {
   displayProductCard() {
     return `
       <div class="card" data-id = "${this.product_id}" >
-        <img class="unlike-icon" id="unlike-icon" src="assets/unliked.png" onclick= pages.likeProduct() alt="Like Button">
-        <img class="like-icon" id="like-icon" src="assets/liked.png" onclick = pages.likeProduct() alt="Like Button">
+        <img class="unlike-icon" id="unlike-icon" src="assets/unliked.png" onclick= "pages.likeProduct()" alt="Like Button">
+        <img class="like-icon" id="like-icon" src="assets/liked.png" onclick = "pages.likeProduct()" alt="Like Button">
           <div class="imgBx">
               <img src="http://pngimg.com/uploads/running_shoes/running_shoes_PNG5782.png" alt="nike-air-shoe">
           </div>
@@ -60,7 +60,7 @@ class Product {
                 <img src="assets/category-icon.png" alt="category icon" class="category-icon">
                 <div class="product-category">${this.product_category_name}</div>
               </div>
-              <button>Add to Cart</button>
+              <button onclick= "pages.addToCart(${this.product_id})">Add to Cart</button>
           </div>
       </div>
     `;
@@ -189,7 +189,9 @@ pages.applyFilter = () => {
   document.getElementById("search-icon").addEventListener("click", function() {
     let selected_category = document.getElementById("category-select").value;
     let selected_title = document.getElementById("search-bar").value
-    
+
+    pages.fetchProduct(selected_category,selected_title);
+
     let filterWindow = document.getElementById("filter-window");
     filterWindow.style.display = "none";
   })
@@ -246,20 +248,39 @@ pages.likeProduct = () => {
   }
 };
 
-
 pages.fetchProducts = () => {
-  return fetch(pages.base_url + "products")
+    fetch(pages.base_url + "products")
     .then((response) => response.json())
     .then((data) => {
       if (data.products && Array.isArray(data.products)) {
         pages.displayProducts(data.products);
       }
-      return [];
     })
     .catch((error) => {
       console.log(error);
-      return [];
     });
+}
+
+pages.fetchProduct = (selected_category = "" ,selected_title ="") => {
+
+  const search = new FormData();
+  search.append ("category" , selected_category)
+  search.append ("title" , selected_title)
+
+  fetch(pages.base_url + "get-product" , {
+    method : "POST",
+    body : search,
+  })
+  .then((response) => response.json())
+  .then((data) => {
+    if (data.products && Array.isArray(data.products)) {
+      pages.displayProducts(data.products);
+    }
+  })
+  .catch((error) => {
+    console.log(error);
+  });
+
 }
 
 pages.displayProducts = (productArray, container = 'product-cards-container') => {
@@ -279,4 +300,28 @@ pages.displayProducts = (productArray, container = 'product-cards-container') =>
   });
 
   productCardsContainer.innerHTML = productCardsHTML;
+}
+
+
+pages.addToCart = (product_id) => {
+  const customer_id = localStorage.getItem("id_customer");
+  const cart_iteam = new FormData();
+  cart_iteam.append ("product_id" , product_id)
+  cart_iteam.append ("customer_id" , customer_id)
+
+  fetch(pages.base_url + "add-to-cart" , {
+    method : "POST",
+    body : cart_iteam,
+  })
+  .then((response) => response.json())
+  .then((data) => {
+    if (data.message == "Product added to cart successfully") {
+      console.log(data.message)
+    }else{console.log(data.message)}
+  })
+  .catch((error) => {
+    console.log(error);
+  });
+  
+
 }
