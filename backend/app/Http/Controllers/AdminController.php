@@ -35,7 +35,7 @@ class AdminController extends Controller
     public function create(Request $request){
 
         if (!$request->has(['title', 'description', 'category_name'])) {
-            return response()->json(['error' => 'Missing required fields'], 422);
+            return response()->json(['error' => 'Missing required fields']);
         }
 
         $categoryName = $request->category_name;
@@ -61,6 +61,36 @@ class AdminController extends Controller
         ]);
     }
 
-    
+  public function update(Request $request)
+    {
+        $productId = $request->id ?? 1;
+
+        $product = Product::where('id_product', $productId)->first();
+        if (!$product) {
+            return response()->json(['error' => 'Product not found']);
+        }
+        // dd($product);
+
+        $product->title = $request->title ? $request->title : $product->title;
+        $product->description = $request->description ? $request->description : $product->description;
+        
+        if ($request->has('category_name')) {
+            $categoryName = $request->category_name;
+            $category = Category::where('category', $categoryName)->first();
+            if (!$category) {
+                $category = new Category();
+                $category->category = $categoryName;
+                $category->save();
+                return response()->json(["Please try again"]);
+            }
+            $product->id_category = $category->id_category;
+        }
+
+        // $product->update(); 
+
+        return response()->json(['message' => 'Product updated successfully', 'product' => $product]);
+    }
+
+
 
 }
