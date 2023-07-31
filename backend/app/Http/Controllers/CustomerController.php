@@ -120,6 +120,50 @@ class CustomerController extends Controller
 
         return response()->json(['message' => 'Product added to liked table successfully']);
     }
+  
+    public function getCustomerProducts(Request $request){
 
+        $customerId = $request->input('customer_id')??1;
+
+        $cartProducts = Cart::where('id_user', $customerId)->get();
+        $likedProducts = Like::where('id_user', $customerId)->get();
+
+        $cartList = [];
+        foreach ($cartProducts as $cartProduct) {
+            // $product = Product::find($cartProduct->id_product);
+            $product = Product::where('id_product', $cartProduct->id_product)->first();
+            if ($product) {
+                $category = Category::where('id_category', $product->id_category)->first();
+
+                $cartList[] = [
+                    'id' => $product->id_product,
+                    'title' => $product->title,
+                    'description' => $product->description,
+                    'category_name' => $category ? $category->category : null,
+                ];
+            }
+        }
+
+        $likedList = [];
+        foreach ($likedProducts as $likedProduct) {
+            // $product = Product::find($likedProduct->id_product);
+            $product = Product::where('id_product', $likedProduct->id_product)->first();
+            if ($product) {
+                $category = Category::where('id_category', $product->id_category)->first();
+
+                $likedList[] = [
+                    'id' => $product->id_product,
+                    'title' => $product->title,
+                    'description' => $product->description,
+                    'category_name' => $category ? $category->category : null,
+                ];
+            }
+        }
+
+        return response()->json([
+            'cart_list' => $cartList,
+            'liked_list' => $likedList,
+        ]);
+    }
 
 }
