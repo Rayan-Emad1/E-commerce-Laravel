@@ -13,7 +13,7 @@ class CreateProductsTable extends Migration
             $table->string('title');
             $table->string('description');
             $table->unsignedBigInteger('id_category');
-            $table->binary('product_image');
+            $table->binary('product_image')->nullable();
             $table->timestamps();
         });
     }
