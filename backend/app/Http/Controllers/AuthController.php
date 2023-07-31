@@ -41,10 +41,10 @@ class AuthController extends Controller
 
     public function signup(Request $request){
 
-        $firstName = $request->input('first_name');
-        $lastName = $request->input('last_name');
-        $email = $request->input('email');
-        $password = $request->input('password');
+        $firstName = $request->first_name;
+        $lastName = $request->last_name;
+        $email = $request->email;
+        $password = $request->password;
     
         if (!$firstName || !$lastName || !$email || !$password) {
             return response()->json([

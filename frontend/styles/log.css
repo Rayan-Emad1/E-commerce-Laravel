@@ -34,6 +34,12 @@ button {
   border-radius: 15px;
 }
 
+.signin-form{
+  display: flex;
+}
+.signup-form{
+  display: none;
+}
 
 .signin-section {
   display: flex;
