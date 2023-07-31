@@ -18,7 +18,7 @@ class AdminController extends Controller
             $category = Category::where("id_category", $id)->first();
 
             $productInfo = [
-                'id' => $product->id_product,
+                'id' => $product->id,
                 'title' => $product->title,
                 'description' => $product->description,
                 // 'product_image' => $product->product_image,
@@ -65,7 +65,7 @@ class AdminController extends Controller
     {
         $productId = $request->id ?? 1;
 
-        $product = Product::where('id_product', $productId)->first();
+        $product = Product::find($productId);
         if (!$product) {
             return response()->json(['error' => 'Product not found']);
         }
@@ -86,9 +86,26 @@ class AdminController extends Controller
             $product->id_category = $category->id_category;
         }
 
-        // $product->update(); 
+        $product->update(); 
 
         return response()->json(['message' => 'Product updated successfully', 'product' => $product]);
+    }
+
+    public function destroy(Request $request)
+    {
+        $productId = $request->id;
+
+        $product = Product::find($productId);
+        // $article = Article::find($id)->delete();
+        // dd($product);
+
+        if (!$product) {
+            return response()->json(['error' => 'Product not found']);
+        }
+
+        $product->delete();
+
+        return response()->json(['message' => 'Product deleted successfully']);
     }
 
 

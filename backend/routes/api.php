@@ -28,4 +28,4 @@ Route::get('get-customer-products', [CustomerController::class, 'getCustomerProd
 Route::get('/products', [AdminController::class, 'getProducts']);
 Route::post('/create', [AdminController::class, 'create']);
 Route::post('/update',[AdminController::class, 'update']);
-Route::delete('/destroy',[AdminController::class, 'destroy']);
+Route::post('/destroy',[AdminController::class, 'destroy']);
