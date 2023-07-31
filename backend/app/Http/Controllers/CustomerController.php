@@ -20,7 +20,7 @@ class CustomerController extends Controller
             $category = Category::where("id_category", $id)->first();
 
             $productInfo = [
-                'id' => $product->id_product,
+                'id' => $product->id,
                 'title' => $product->title,
                 'description' => $product->description,
                 // 'product_image' => $product->product_image,
@@ -80,11 +80,11 @@ class CustomerController extends Controller
     }
     
     public function addToCart(Request $request){
-        $productId = $request->input('product_id') ?? 1;
-        $customerId = $request->input('customer_id') ?? 1;
+        $productId = $request->product_id ?? 1;
+        $customerId = $request->customer_id ?? 1;
 
-
-        $product = Product::where('id_product', $productId)->first();
+        $product = Product::find($productId);
+        // $product = Product::where('id_product', $productId)->first();
         $customer = Customer::where('id_customer', $customerId)->first();
         // dd('Product ID:', $product);
 
@@ -105,7 +105,8 @@ class CustomerController extends Controller
         $productId = $request->input('product_id');
         $customerId = $request->input('customer_id');
 
-        $product = Product::where('id_product', $productId)->first();
+        $product = Product::find($productId);
+        // $product = Product::where('id_product', $productId)->first();
         $customer = Customer::where('id_customer', $customerId)->first();
 
         if (!$productId || !$customerId) {
@@ -123,20 +124,19 @@ class CustomerController extends Controller
   
     public function getCustomerProducts(Request $request){
 
-        $customerId = $request->input('customer_id')??1;
+        $customerId = $request->customer_id ?? 1;
 
         $cartProducts = Cart::where('id_user', $customerId)->get();
         $likedProducts = Like::where('id_user', $customerId)->get();
 
         $cartList = [];
         foreach ($cartProducts as $cartProduct) {
-            // $product = Product::find($cartProduct->id_product);
-            $product = Product::where('id_product', $cartProduct->id_product)->first();
+            $product = Product::where('id', $cartProduct->id_product)->first();
             if ($product) {
                 $category = Category::where('id_category', $product->id_category)->first();
 
                 $cartList[] = [
-                    'id' => $product->id_product,
+                    'id' => $product->id,
                     'title' => $product->title,
                     'description' => $product->description,
                     'category_name' => $category ? $category->category : null,
@@ -146,13 +146,12 @@ class CustomerController extends Controller
 
         $likedList = [];
         foreach ($likedProducts as $likedProduct) {
-            // $product = Product::find($likedProduct->id_product);
-            $product = Product::where('id_product', $likedProduct->id_product)->first();
+            $product = Product::where('id', $likedProduct->id_product)->first();
             if ($product) {
                 $category = Category::where('id_category', $product->id_category)->first();
 
                 $likedList[] = [
-                    'id' => $product->id_product,
+                    'id' => $product->id,
                     'title' => $product->title,
                     'description' => $product->description,
                     'category_name' => $category ? $category->category : null,
