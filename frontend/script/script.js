@@ -6,10 +6,11 @@ pages.base_url = 'http://127.0.0.1:8000/api/'
 pages.logPageFunctions = () => {
   pages.signupPage();
   pages.signup();
+  pages.signin();
+  pages.showPassword()
 }
 
 // MAIN-PAGE
-
 pages.mainPageFunctions = () => {
   pages.headerFuctions();
   pages.cardFuctions();
@@ -66,10 +67,50 @@ pages.signup = () => {
   })
 }
 
-pages.signin{
-  
+pages.signin = () => {
+  const signin_btn = document.getElementById("signin");
+
+  signin_btn.addEventListener("click", (e) => {
+    e.preventDefault();
+    const email = document.getElementById("signin-email").value;
+    const password = document.getElementById("signin-password").value;
+
+    const pass_data = new FormData();
+    pass_data.append("email",email);
+    pass_data.append("password", password);
+
+    fetch(pages.base_url + "signin", {
+      method: "POST",
+      body: pass_data,
+    })
+      .then((response) => response.json())
+      .then((data) => {
+          if (data.status == "logged in") {
+            localStorage.setItem("first_name", data.user.first_name);
+            localStorage.setItem("last_name", data.user.last_name);
+            localStorage.setItem("user_id", data.user.id_customer);
+            if(data.role == "admin"){
+              window.location.href = "admin.html"
+            }else{
+              window.location.href = "main-page.html"
+            }
+          }
+        })
+        .catch((error) => console.log("Error In Email API: ", error))
+  })
 }
 
+pages.showPassword = () => {
+  const password = document.getElementById("signin-password")
+  const showPasswordCheckbox = document.getElementById("showPassword");
+  showPasswordCheckbox.addEventListener("change", function () {
+    if (showPasswordCheckbox.checked) {
+      password.type = "text";
+    } else {
+      password.type = "password";
+    }
+  });
+}
 
 pages.headerFuctions = () => {
     pages.showFilter();
