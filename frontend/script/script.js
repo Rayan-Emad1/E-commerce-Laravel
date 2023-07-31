@@ -14,8 +14,8 @@ pages.logPageFunctions = () => {
 // MAIN-PAGE
 pages.mainPageFunctions = () => {
   pages.headerFuctions();
-  pages.cardFuctions();
   pages.fetchProducts();
+  pages.cardFuctions();
 }
 
 pages.headerFuctions = () => {
@@ -27,6 +27,8 @@ pages.headerFuctions = () => {
 
 pages.cardFuctions = () => {
 // pages.likeProduct();
+//pages.addToLike();
+//pages.addToCart();
 }
 
 
@@ -46,8 +48,8 @@ class Product {
   displayProductCard() {
     return `
       <div class="card" data-id = "${this.product_id}" >
-        <img class="unlike-icon" id="unlike-icon" src="assets/unliked.png" onclick= "pages.likeProduct()" alt="Like Button">
-        <img class="like-icon" id="like-icon" src="assets/liked.png" onclick = "pages.likeProduct()" alt="Like Button">
+        <img class="unlike-icon" id="unlike-icon" src="assets/unliked.png" onclick= "pages.addToLike(${this.product_id})" alt="Like Button">
+        <img class="like-icon" id="like-icon" src="assets/liked.png"  alt="Like Button">
           <div class="imgBx">
               <img src="http://pngimg.com/uploads/running_shoes/running_shoes_PNG5782.png" alt="nike-air-shoe">
           </div>
@@ -233,8 +235,8 @@ pages.showCart = () => {
 }
 
 pages.likeProduct = () => {
-  let liked = document.getElementById("like-icon");
-  let unliked = document.getElementById("unlike-icon");
+  let liked = document.querySelector("like-icon");
+  let unliked = document.querySelector("unlike-icon");
   
   let likedDisplay = window.getComputedStyle(liked).display;
   let unlikedDisplay = window.getComputedStyle(unliked).display;
@@ -316,6 +318,29 @@ pages.addToCart = (product_id) => {
   .then((response) => response.json())
   .then((data) => {
     if (data.message == "Product added to cart successfully") {
+      console.log(data.message)
+    }else{console.log(data.message)}
+  })
+  .catch((error) => {
+    console.log(error);
+  });
+  
+
+}
+
+pages.addToLike = (product_id) => {
+  const customer_id = localStorage.getItem("id_customer");
+  const like_iteam = new FormData();
+  like_iteam.append ("product_id" , product_id)
+  like_iteam.append ("customer_id" , customer_id)
+
+  fetch(pages.base_url + "add-to-liked" , {
+    method : "POST",
+    body : like_iteam,
+  })
+  .then((response) => response.json())
+  .then((data) => {
+    if (data.message == "Product added to liked table successfully") {
       console.log(data.message)
     }else{console.log(data.message)}
   })
