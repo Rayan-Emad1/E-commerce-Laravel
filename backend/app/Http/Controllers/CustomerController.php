@@ -165,4 +165,10 @@ class CustomerController extends Controller
         ]);
     }
 
+    public function getAllCategories()
+    {
+        $categories = Category::pluck('category')->toArray();
+        return response()->json(['categories' => $categories]);
+    }
+
 }

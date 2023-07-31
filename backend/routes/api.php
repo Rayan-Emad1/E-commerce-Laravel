@@ -21,7 +21,10 @@ Route::get('/products', [CustomerController::class, 'getProducts']);
 Route::post('/get-product', [CustomerController::class, 'getProduct']);
 Route::post('/add-to-cart', [CustomerController::class, 'addToCart']);
 Route::post('/add-to-liked', [CustomerController::class, 'addToLiked']);
+Route::get('/categories', [CustomerController::class, 'getAllCategories']);
 Route::post('get-customer-products', [CustomerController::class, 'getCustomerProducts']);
+
+
 
 
 
