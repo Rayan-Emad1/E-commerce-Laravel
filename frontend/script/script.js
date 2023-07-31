@@ -1,5 +1,76 @@
 const pages = {};
 
+pages.base_url = 'http://127.0.0.1:8000/api/'
+
+// Log-PAGE
+pages.logPageFunctions = () => {
+  pages.signupPage();
+  pages.signup();
+}
+
+// MAIN-PAGE
+
+pages.mainPageFunctions = () => {
+  pages.headerFuctions();
+  pages.cardFuctions();
+}
+
+pages.signupPage = () => {
+  const signup_btn = document.getElementById("signup-page");
+  signup_btn.addEventListener("click", function(e){
+    e.preventDefault()
+    document.getElementById("signin-form").style.display = "none"
+    document.getElementById("signup-form").style.display = "flex"
+  })
+
+}
+
+pages.signup = () => {
+  const signup_btn = document.getElementById("signup-btn");
+  signup_btn.addEventListener("click", function(e){
+    e.preventDefault();
+
+    const first_name_val = document.getElementById("first-name-input").value;
+    const last_name_val = document.getElementById("last-name-input").value;
+    const email_val = document.getElementById("email-input").value;
+    const password_val = document.getElementById("password-input").value;
+    const ver_password_val = document.getElementById("ver-pass-input").value;
+
+    if (
+      password_val == ver_password_val &&
+      first_name_val &&
+      last_name_val &&
+      email_val &&
+      password_val &&
+      ver_password_val
+    ) {
+      const signup_data = new FormData();
+      signup_data.append("first_name", first_name_val);
+      signup_data.append("last_name", last_name_val);
+      signup_data.append("email", email_val);
+      signup_data.append("password", password_val);
+
+      fetch(pages.base_url + "signup", {
+        method: "POST",
+        body: signup_data,
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.message == "Customer registered successfully") {
+            window.location.href = "main-page.html";
+            console.log("signup")
+          }else{console.log(data.message)}
+        })
+        .catch((error) => console.log(error));
+    }else{console.log("Missing input")}
+  })
+}
+
+pages.signin{
+  
+}
+
+
 pages.headerFuctions = () => {
     pages.showFilter();
     pages.applyFilter();
