@@ -7,7 +7,8 @@ pages.logPageFunctions = () => {
   pages.signupPage();
   pages.signup();
   pages.signin();
-  pages.showPassword()
+  pages.showPassword();
+  pages.displayUserInfo();
 }
 
 // MAIN-PAGE
@@ -15,6 +16,13 @@ pages.mainPageFunctions = () => {
   pages.headerFuctions();
   pages.cardFuctions();
 }
+
+
+///////
+/////
+///
+
+
 
 pages.signupPage = () => {
   const signup_btn = document.getElementById("signup-page");
@@ -88,10 +96,12 @@ pages.signin = () => {
           if (data.status == "logged in") {
             localStorage.setItem("first_name", data.user.first_name);
             localStorage.setItem("last_name", data.user.last_name);
-            localStorage.setItem("user_id", data.user.id_customer);
+            localStorage.setItem("email", data.user.email);
             if(data.role == "admin"){
+              localStorage.setItem("id_admin", data.user.id_admin);
               window.location.href = "admin.html"
             }else{
+              localStorage.setItem("id_customer", data.user.id_customer);
               window.location.href = "main-page.html"
             }
           }
