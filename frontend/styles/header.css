@@ -44,6 +44,7 @@
     object-fit: fill;
     background-color: none;
     margin-left: 20px;
+    cursor: pointer;
   }
   
   .search-bar {
@@ -95,6 +96,7 @@
   
   .cart-icon {
     height: 43px;
+    cursor: pointer;
   }
   
   .current-user-picture {
@@ -140,6 +142,11 @@
     width: 64px;
     height: 64px;
     align-self: center;
+  }
+
+  #like-cards{
+    display: block;
+    margin: 0;
   }
 
   .logout {

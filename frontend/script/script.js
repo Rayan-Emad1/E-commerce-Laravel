@@ -15,6 +15,7 @@ pages.logPageFunctions = () => {
 pages.mainPageFunctions = () => {
   pages.headerFuctions();
   pages.fetchProducts();
+  pages.fetchCustomerProducts();
   pages.cardFuctions();
 }
 
@@ -22,7 +23,9 @@ pages.headerFuctions = () => {
   pages.showFilter();
   pages.applyFilter();
   pages.userInfo();
+  pages.showProducts();
   pages.showCart();
+  pages.showLike();
 }
 
 pages.cardFuctions = () => {
@@ -227,10 +230,27 @@ pages.logOut = () => {
     window.location.href = "index.html";
 };
 
+pages.showProducts = () => {
+  document.getElementById("product-cards-show").addEventListener("click" , function(){
+    document.getElementById("product-cards-container").style.display = "flex";
+    document.getElementById("liked-cards-container").style.display = "none";
+    document.getElementById("cart-cards-container").style.display = "none";
+  })
+}
+
 pages.showCart = () => {
   document.getElementById("cart-icon").addEventListener("click" , function(){
     document.getElementById("product-cards-container").style.display = "none";
+    document.getElementById("liked-cards-container").style.display = "none";
     document.getElementById("cart-cards-container").style.display = "flex";
+  })
+}
+
+pages.showLike = () => {
+  document.getElementById("like-cards").addEventListener("click" , function(){
+    document.getElementById("product-cards-container").style.display = "none";
+    document.getElementById("liked-cards-container").style.display = "flex";
+    document.getElementById("cart-cards-container").style.display = "none";
   })
 }
 
@@ -304,7 +324,6 @@ pages.displayProducts = (productArray, container = 'product-cards-container') =>
   productCardsContainer.innerHTML = productCardsHTML;
 }
 
-
 pages.addToCart = (product_id) => {
   const customer_id = localStorage.getItem("id_customer");
   const cart_iteam = new FormData();
@@ -319,6 +338,7 @@ pages.addToCart = (product_id) => {
   .then((data) => {
     if (data.message == "Product added to cart successfully") {
       console.log(data.message)
+      location.reload() 
     }else{console.log(data.message)}
   })
   .catch((error) => {
@@ -342,11 +362,33 @@ pages.addToLike = (product_id) => {
   .then((data) => {
     if (data.message == "Product added to liked table successfully") {
       console.log(data.message)
+      location.reload() 
     }else{console.log(data.message)}
   })
   .catch((error) => {
     console.log(error);
   });
   
+
+}
+
+pages.fetchCustomerProducts = () => {
+  const customer_id = localStorage.getItem("id_customer");
+  const customer_iteam = new FormData();
+  customer_iteam.append ("customer_id" , customer_id)
+
+  fetch(pages.base_url + "get-customer-products" , {
+    method : "POST",
+    body : customer_iteam,
+  })
+  .then((response) => response.json())
+  .then((data) => {
+    pages.displayProducts(data.cart_list, 'cart-cards-container');
+    pages.displayProducts(data.liked_list, 'liked-cards-container');
+    
+  })
+  .catch((error) => {
+    console.log(error);
+  });
 
 }

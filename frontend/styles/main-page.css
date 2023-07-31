@@ -10,7 +10,8 @@ button {
 }
 
 .product-cards-container,
-.cart-cards-container{
+.cart-cards-container,
+.liked-cards-container{
   margin: 0;
   margin-top: 7%;
   padding: 20px 20px;
@@ -20,13 +21,15 @@ button {
   grid-column-gap: 20px;
   justify-content: space-around;
   align-content: flex-start;
-  background-color: lightgray;
-  height: 3000px;
 }
 
 .product-cards-container{
   display: flex;
 }
 .cart-cards-container{
+  display: none;
+}
+
+.liked-cards-container{
   display: none;
 }
