@@ -22,6 +22,7 @@ class AuthController extends Controller
         if ($admin && Hash::check($password, $admin->password)) {    
             // $token = Auth::guard('admin')->login($admin);
             return response()->json([
+                'status' => "logged in",
                 'role' => 'admin', 
                 'user' => $admin]);
         }
@@ -33,6 +34,7 @@ class AuthController extends Controller
             // User is a customer and password is correct
             // $token = Auth::guard('customer')->login($customer);
             return response()->json([
+                'status' => "logged in",
                 'role' => 'customer',
                 'user' => $customer]);
         }
@@ -56,7 +58,7 @@ class AuthController extends Controller
             return response()->json(['message' => 'Email already registered']);
         }
     
-        $customer = new Customer;
+        $customer = new Admin;
         $customer->first_name = $firstName;
         $customer->last_name = $lastName;
         $customer->email = $email;
