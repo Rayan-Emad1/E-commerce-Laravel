@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Product;
+use App\Models\Customer;
 use App\Models\Category;
+use App\Models\Like;
+use App\Models\Cart;
 
 class CustomerController extends Controller
 {
@@ -76,7 +79,29 @@ class CustomerController extends Controller
         return response()->json(['products' => $response]);
     }
     
+    public function addToCart(Request $request){
+        $productId = $request->input('product_id') ?? 1;
+        $customerId = $request->input('customer_id') ?? 1;
 
+
+        $product = Product::where('id_product', $productId)->first();
+        $customer = Customer::where('id_customer', $customerId)->first();
+        // dd('Product ID:', $product);
+
+        if (!$product || !$customer) {
+            return response()->json(['error' => 'Product or Customer not found']);
+        }
+
+        // Add the product to the cart
+        $cart = new Cart();
+        $cart->id_user = $customerId;
+        $cart->id_product = $productId;
+        $cart->save();
+
+        return response()->json(['message' => 'Product added to cart successfully']);
+    }
+
+    
 
 
 }
