@@ -170,6 +170,7 @@ pages.signup = () => {
             localStorage.setItem("last_name", data.customer.last_name);
             localStorage.setItem("email", data.customer.email);
             localStorage.setItem("role", data.role);
+            localStorage.setItem("id_customer", data.customer.id);
             window.location.href = "main-page.html";
             console.log("signup")
           }else{console.log(data.message)}
