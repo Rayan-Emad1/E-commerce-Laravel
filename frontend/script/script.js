@@ -345,8 +345,6 @@ pages.addToCart = (product_id) => {
   .catch((error) => {
     console.log(error);
   });
-  
-
 }
 
 pages.addToLike = (product_id) => {

@@ -5,6 +5,10 @@
   box-sizing: border-box;
 }
 
+body{
+  background: linear-gradient(110deg, rgba(18,28,116,1) 0%, rgba(0,0,0,1) 51%, rgba(18,28,116,1) 100%);
+}
+
 button {
   cursor: pointer;
 }
@@ -21,6 +25,7 @@ button {
   grid-column-gap: 20px;
   justify-content: space-around;
   align-content: flex-start;
+  min-height: 100vh;
 }
 
 .product-cards-container{

@@ -1,5 +1,6 @@
 .header {
-    height: 55px;  
+    height: 55px;
+    margin: 20px;  
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -8,11 +9,7 @@
     top: 0;
     left: 0;
     right: 0;
-  
-    background-color: white;
-    border-bottom-width: 1px;
-    border-bottom-style: solid;
-    border-bottom-color: rgb(228, 228, 228);
+
     z-index: 1000;
   }
   
