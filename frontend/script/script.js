@@ -19,6 +19,14 @@ pages.mainPageFunctions = () => {
   pages.cardFuctions();
 }
 
+pages.AdminPageFunctions = () =>{
+  pages.showFilter();
+  pages.applyFilter();
+  pages.userInfo();
+  pages.fetchCategories();
+  pages.fetchProducts();
+}
+
 pages.headerFuctions = () => {
   pages.showFilter();
   pages.applyFilter();
@@ -75,6 +83,40 @@ class Product {
 }
 
 
+class ProductAdmin {
+  constructor(id,title,description,category_name,product_image=null){
+    this.product_id = id;
+    this.product_title = title;
+    this.product_description = description;
+    this.product_category_name = category_name;
+    this.product_image = product_image;
+  }
+
+  displayProductCard() {
+    return `
+      <div class="card" data-id = "${this.product_id}">
+        <img class="unlike-icon" id="delete-icon" src="assets/delete.png"  alt="Like Button" onclick="pages.deleteProduct(${this.product_id})" >
+        <div class="imgBx">
+            <img src="http://pngimg.com/uploads/running_shoes/running_shoes_PNG5782.png" alt="nike-air-shoe">
+        </div>
+        <div class="contentBx">
+            <h2>${this.product_title}</h2>
+            <div class="product-description">
+                <p>${this.product_description}</p>
+            </div>
+            <div class="category-container">
+              <img src="assets/category-icon.png" alt="category icon" class="category-icon">
+              <div class="product-category">${this.product_category_name}</div>
+            </div>
+            <button onclick="pages.editshowmodule(${this.product_id})" >Edit Product</button>
+        </div>
+      </div>
+    `;
+  }
+
+}
+
+
 ///
 ////
 ///////
@@ -124,6 +166,10 @@ pages.signup = () => {
         .then((response) => response.json())
         .then((data) => {
           if (data.message == "Customer registered successfully") {
+            localStorage.setItem("first_name", data.customer.first_name);
+            localStorage.setItem("last_name", data.customer.last_name);
+            localStorage.setItem("email", data.customer.email);
+            localStorage.setItem("role", data.role);
             window.location.href = "main-page.html";
             console.log("signup")
           }else{console.log(data.message)}
@@ -155,6 +201,7 @@ pages.signin = () => {
             localStorage.setItem("first_name", data.user.first_name);
             localStorage.setItem("last_name", data.user.last_name);
             localStorage.setItem("email", data.user.email);
+            localStorage.setItem("role", data.role);
             if(data.role == "admin"){
               localStorage.setItem("id_admin", data.user.id_admin);
               window.location.href = "admin.html"
@@ -222,7 +269,7 @@ pages.displayUserInfo = () => {
     const fullNameElement = document.getElementById("full-name-disp");
     const emailElement = document.getElementById("email-disp");
   
-    fullNameElement.textContent = `${firstName} ${lastName}`; 
+    fullNameElement.textContent = `${firstName} ${lastName}` 
     emailElement.textContent = `Email: ${email}`;
 };
 
@@ -276,7 +323,13 @@ pages.fetchProducts = () => {
     .then((response) => response.json())
     .then((data) => {
       if (data.products && Array.isArray(data.products)) {
-        pages.displayProducts(data.products);
+        const role = localStorage.getItem("role")
+        if (role === "admin"){
+          pages.displayProductsAdmin(data.products);
+
+        }else{
+          pages.displayProducts(data.products);
+        }
       }
     })
     .catch((error) => {
@@ -297,7 +350,13 @@ pages.fetchProduct = (selected_category = "" ,selected_title ="") => {
   .then((response) => response.json())
   .then((data) => {
     if (data.products && Array.isArray(data.products)) {
-      pages.displayProducts(data.products);
+      const role = localStorage.getItem("role")
+      if (role === "admin"){
+        pages.displayProductsAdmin(data.products);
+
+      }else{
+        pages.displayProducts(data.products);
+      }
     }
   })
   .catch((error) => {
@@ -323,6 +382,25 @@ pages.displayProducts = (productArray, container = 'product-cards-container') =>
   });
 
   productCardsContainer.innerHTML = productCardsHTML;
+}
+
+pages.displayProductsAdmin = (productArray) => {
+  const productCardsContainer = document.getElementById("product-cards-container");
+
+  let productCardsHTML = '';
+  productArray.forEach((productData) => {
+    const productInstance = new ProductAdmin(
+      productData.id,
+      productData.title,
+      productData.description,
+      productData.category_name
+      // You can pass the product_image here if needed
+    );
+
+    productCardsHTML += productInstance.displayProductCard();
+  });
+
+  productCardsContainer.innerHTML += productCardsHTML;
 }
 
 pages.addToCart = (product_id) => {
@@ -412,4 +490,86 @@ pages.fetchCategories = () => {
       console.log(error);
     });
   
+}
+
+pages.createProduct = () => {
+  const title = document.getElementById("newp-title")
+  const description = document.getElementById("newp-description")
+  const category = document.getElementById("newp-category")
+
+  const new_product = new FormData();
+  new_product.append("title" , title.value)
+  new_product.append("description" , description.value)
+  new_product.append("category_name" , category.value)
+
+  fetch(pages.base_url + "create" , {
+    method : "POST",
+    body : new_product,
+  })
+  .then((response) => response.json())
+  .then((data) => {
+    console.log(data.message)
+    title.innerText = ''
+    description.innerText = ''
+    category.innerText = ''
+    location.reload() 
+  })
+  .catch((error) => {
+    console.log(error);
+  });
+}
+
+pages.editshowmodule = (id) =>{
+  document.getElementById("editModal").style.display = "block";
+  localStorage.setItem('editIteam', id)
+} 
+pages.editProduct = () => {
+  const id = localStorage.getItem('editIteam')
+  const new_title =document.getElementById("edit-title").value
+  const new_desc =document.getElementById("edit-description").value
+  const new_cat =document.getElementById("edit-category").value
+
+  const new_info = new FormData();
+  new_info.append('id' , id)
+  new_info.append('title' , new_title)
+  new_info.append('description' , new_desc)
+  new_info.append('category_name' , new_cat)
+
+  fetch(pages.base_url + "update" , {
+    method : "POST",
+    body : new_info,
+  })
+  .then((response) => response.json())
+  .then((data) => {
+    console.log(data.message)
+    location.reload() 
+  })
+  .catch((error) => {
+    console.log(error);
+  });
+  
+}
+
+pages.deleteProduct = (id) => {
+
+  const del_product = new FormData();
+  del_product.append("id" , id)
+
+  fetch(pages.base_url + "destroy" , {
+    method : "POST",
+    body : del_product,
+  })
+  .then((response) => response.json())
+  .then((data) => {
+    console.log(data.message)
+    location.reload() 
+  })
+  .catch((error) => {
+    console.log(error);
+  });
+  
+}
+
+pages.closeEditModal= () => {
+  document.getElementById("editModal").style.display = "none";
 }
