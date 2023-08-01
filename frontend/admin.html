@@ -3,9 +3,87 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>E-commerce</title>
+
+    <link rel="stylesheet" href="styles/main-page.css">
+    <link rel="stylesheet" href="styles/header.css">
+    <link rel="stylesheet" href="styles/product-card.css">
 </head>
 <body>
-    Welcome Admin
+
+  <div class="header">
+    <div class="left-section">
+      <img class="e-commerce-logo" src="assets/logo.png" id="product-cards-show"/>
+    </div>
+    <div class="middle-section">
+      <input class="search-bar" id="search-bar" type="text" placeholder="Search" />
+      <button class="search-button">
+        <img class="search-icon" src="assets/search.svg" id="search-icon""/>
+      </button>
+      <button class="filter-button" id="filter-button">
+        <img class="filter-search-icon" src="assets/filter-icon.png" />
+      </button>
+    </div>
+    <div class="right-section">
+      <img class="current-user-picture" onclick="pages.userInfo()" src="assets/default-profile-icon.jpg" />
+    </div>
+  </div>
+      
+  <div class="user-info-tab" id="user-info-tab">
+    <div class="user-info">
+      <img class="userIcon" id="icon-disp" src="assets/default-profile-icon.jpg" alt="Default Icon">
+      <div>
+        <h1 id="full-name-disp"></h1>
+        <div id="email-disp"></div>
+      </div>
+    </div>
+    <button class="logout" id="logout" onclick="pages.logOut()">Logout</button>
+  </div>
+
+  <div id="filter-window" class="filter-window">
+    <label for="category-select">Select a category:</label>
+    <select id="category-select">
+      <option value="">All</option>
+    </select>
+  </div>
+
+
+  <div id="editModal" class="modal">
+    <div class="modal-content">
+      <h2>Edit Product</h2>
+      <input type="text" id="edit-title" placeholder="Title">
+      <input type="text" id="edit-description" placeholder="Description">
+      <input type="text" id="edit-category" placeholder="Category">
+      <button onclick="pages.editProduct()">Save</button>
+      <button onclick="pages.closeEditModal()">Cancel</button>
+    </div>
+  </div>
+
+
+  <div class="product-cards-container" id="product-cards-container">
+    <div class="card" id="admin-card">
+        <div class="imgBx">
+            <img src="http://pngimg.com/uploads/running_shoes/running_shoes_PNG5782.png" alt="nike-air-shoe">
+        </div>
+        <div class="contentBx">
+            <input type="text" placeholder="Title" id="newp-title"/>
+            <div class="product-description">
+                <input placeholder="Product description" type="text"  id="newp-description" />
+            </div>
+            <div class="category-container">
+              <!-- <div class="product-category">Technology</div> -->
+              <input type="text" placeholder="Category" id="newp-category"/>
+            </div>
+            <button onclick="pages.createProduct()"">Create</button>
+        </div>
+    </div>
+
+  </div>
+
+
+  <script src="script/script.js"></script>
+  <script>
+    pages.AdminPageFunctions()
+  </script> 
 </body>
 </html>
