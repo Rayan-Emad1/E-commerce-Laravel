@@ -26,6 +26,7 @@ pages.headerFuctions = () => {
   pages.showProducts();
   pages.showCart();
   pages.showLike();
+  pages.fetchCategories();
 }
 
 pages.cardFuctions = () => {
@@ -391,4 +392,26 @@ pages.fetchCustomerProducts = () => {
     console.log(error);
   });
 
+}
+
+pages.fetchCategories = () => {
+
+  fetch(pages.base_url + "categories")
+    .then((response) => response.json())
+    .then((data) => {
+      const categorySelect = document.getElementById('category-select');
+      categorySelect.innerHTML = '<option value="">All</option>';
+
+      data.categories.forEach((category) => {
+        const option = document.createElement('option');
+        option.value = category.toLowerCase();
+        option.textContent = category;
+        categorySelect.appendChild(option);
+      })
+
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+  
 }
