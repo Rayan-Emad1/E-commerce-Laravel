@@ -1,7 +1,8 @@
 
 /* Reference : https://codepen.io/sam_garcia2/pen/dyoKENR */
 
-.card {
+.card,
+.card-admin {
   display: flex;
   flex-direction: column;
   position: relative;
@@ -10,6 +11,10 @@
   background: #232323;
   border-radius: 20px;
   overflow: hidden;
+}
+
+#admin-card{
+  background-color: #fff;
 }
 
 .category-icon {
@@ -69,7 +74,7 @@
   height: 100px;
   text-align: center;
   transition: 1s;
-  z-index: 90;
+  z-index: 9990;
 }
 
 .card:hover .contentBx {
@@ -92,6 +97,10 @@
   transition: .5s;
   opacity: 0;
   visibility: hidden;
+}
+
+#delete-icon{
+  height: fit-content;
 }
 
 .card .contentBx .category-container {
@@ -147,3 +156,9 @@
   transform: translateY(0px);
   transition-delay: .9s;
 } 
+
+.card input{
+  z-index: 10000;
+  height: 20px;
+}
+
