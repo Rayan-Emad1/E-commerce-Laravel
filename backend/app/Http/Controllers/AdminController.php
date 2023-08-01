@@ -63,7 +63,7 @@ class AdminController extends Controller
 
   public function update(Request $request)
     {
-        $productId = $request->id ?? 1;
+        $productId = $request->id ;
 
         $product = Product::find($productId);
         if (!$product) {
